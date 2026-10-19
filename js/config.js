@@ -97,56 +97,11 @@ const TimeUtils = {
 };
 
 /**
- * Generador de datos simulados de ocupación y bloqueos
- * para demostrar el cálculo dinámico de disponibilidad por duración
+ * Generador de horarios ocupados iniciales
+ * En modo producción con Google Sheets, retorna vacío para mostrar única y exclusivamente
+ * las reservas reales registradas en la hoja de cálculo.
  */
 function generateMockSlots(daysCount = 35) {
-  const mockSchedule = {};
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  for (let d = 0; d < daysCount; d++) {
-    const curDate = new Date(today);
-    curDate.setDate(today.getDate() + d);
-    const dateStr = curDate.toISOString().split('T')[0];
-    mockSchedule[dateStr] = [];
-
-    // Ocupaciones de demostración
-    if (d === 0) {
-      // Hoy
-      mockSchedule[dateStr].push(
-        { start: '09:00', end: '11:00', status: 'reservado', reason: 'Academia Infantil' },
-        { start: '16:00', end: '17:30', status: 'pendiente', reason: 'Fulbito Vecinos' },
-        { start: '19:00', end: '21:00', status: 'reservado', reason: 'Vóley Santa Anita' }
-      );
-    } else if (d === 1) {
-      // Mañana
-      mockSchedule[dateStr].push(
-        { start: '08:00', end: '09:30', status: 'reservado', reason: 'Entrenamiento' },
-        { start: '11:00', end: '13:00', status: 'bloqueado', reason: 'Mantenimiento de losa' },
-        { start: '17:00', end: '18:30', status: 'pendiente', reason: 'Fulbito Juvenil' },
-        { start: '20:00', end: '22:00', status: 'reservado', reason: 'Torneo Huáscar' }
-      );
-    } else {
-      const dayOfWeek = curDate.getDay();
-      if (dayOfWeek === 6 || dayOfWeek === 0) { // Fines de semana
-        mockSchedule[dateStr].push(
-          { start: '08:00', end: '10:00', status: 'reservado', reason: 'Academia' },
-          { start: '14:30', end: '16:00', status: 'pendiente', reason: 'Vóley Vecinal' },
-          { start: '17:00', end: '19:00', status: 'reservado', reason: 'Copa Amistad' }
-        );
-      } else if (d % 3 === 0) {
-        mockSchedule[dateStr].push(
-          { start: '15:00', end: '16:30', status: 'bloqueado', reason: 'Inspección técnica' },
-          { start: '18:30', end: '20:00', status: 'pendiente', reason: 'Básquet' }
-        );
-      } else if (d % 2 === 0) {
-        mockSchedule[dateStr].push(
-          { start: '19:00', end: '21:00', status: 'reservado', reason: 'Fulbito Nocturno' }
-        );
-      }
-    }
-  }
-
-  return mockSchedule;
+  // Retorna vacío para no generar horarios ocupados o bloqueados ficticios
+  return {};
 }

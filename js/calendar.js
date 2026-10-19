@@ -20,8 +20,8 @@ class HuascarCalendar {
     this.selectedDuration = CONFIG.defaultDuration; // 60, 90, 120
     this.selectedSlot = null; // { start: '16:00', end: '18:00', duration: 120 }
 
-    // Carga de datos simulados
-    this.scheduleData = generateMockSlots(35);
+    // Datos de reservas y disponibilidad (en vivo desde Google Sheets)
+    this.scheduleData = {};
 
     this.init();
   }

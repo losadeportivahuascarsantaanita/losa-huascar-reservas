@@ -213,11 +213,13 @@ const AdminController = {
       // 1. Cargar solicitudes reales desde la hoja
       const res = await ApiService.adminGetRequests(token);
       if (res && res.success && Array.isArray(res.solicitudes)) {
-        if (res.solicitudes.length > 0) {
-          AdminData.requests = res.solicitudes;
-          if (this.selectedRequestId && !AdminData.requests.some(r => r.id === this.selectedRequestId)) {
+        AdminData.requests = res.solicitudes;
+        if (AdminData.requests.length > 0) {
+          if (!this.selectedRequestId || !AdminData.requests.some(r => r.id === this.selectedRequestId)) {
             this.selectedRequestId = AdminData.requests[0].id;
           }
+        } else {
+          this.selectedRequestId = null;
         }
         this.renderKPIs();
         this.renderRequestsTable();
@@ -228,9 +230,7 @@ const AdminController = {
       // 2. Cargar bloqueos reales desde la hoja
       const resB = await ApiService.adminGetBlocks(token);
       if (resB && resB.success && Array.isArray(resB.bloqueos)) {
-        if (resB.bloqueos.length > 0) {
-          AdminData.blockedSlots = resB.bloqueos;
-        }
+        AdminData.blockedSlots = resB.bloqueos;
         this.renderBlockList();
         this.renderAdminCalendar();
       }
@@ -238,9 +238,7 @@ const AdminController = {
       // 3. Cargar historial de auditoría desde la hoja
       const resH = await ApiService.adminGetHistory(token);
       if (resH && resH.success && Array.isArray(resH.historial)) {
-        if (resH.historial.length > 0) {
-          AdminData.auditHistory = resH.historial;
-        }
+        AdminData.auditHistory = resH.historial;
         this.renderHistoryTable();
       }
     } catch (e) {
@@ -721,7 +719,34 @@ const AdminController = {
 
   renderSelectedRequestDetail() {
     const req = AdminData.requests.find(r => r.id === this.selectedRequestId);
-    if (!req) return;
+    if (!req) {
+      const statusBanner = document.getElementById('drawer-status-banner');
+      if (statusBanner) {
+        statusBanner.className = 'drawer-status-banner is-empty';
+        statusBanner.innerHTML = '<span>No hay solicitudes seleccionadas</span>';
+      }
+      const codeEl = document.getElementById('drawer-code-val');
+      if (codeEl) codeEl.textContent = '--';
+      const nameEl = document.getElementById('drawer-solicitante-name');
+      if (nameEl) nameEl.textContent = 'Sin solicitudes en la bandeja';
+      const dniEl = document.getElementById('drawer-solicitante-dni');
+      if (dniEl) dniEl.textContent = 'DNI: --';
+      const phoneEl = document.getElementById('drawer-solicitante-phone');
+      if (phoneEl) phoneEl.textContent = 'Celular: --';
+      const btnApprove = document.getElementById('btn-action-approve');
+      const btnReject = document.getElementById('btn-action-reject');
+      const btnCancel = document.getElementById('btn-action-cancel');
+      if (btnApprove) btnApprove.disabled = true;
+      if (btnReject) btnReject.disabled = true;
+      if (btnCancel) btnCancel.disabled = true;
+      return;
+    }
+    const btnApprove = document.getElementById('btn-action-approve');
+    const btnReject = document.getElementById('btn-action-reject');
+    const btnCancel = document.getElementById('btn-action-cancel');
+    if (btnApprove) btnApprove.disabled = false;
+    if (btnReject) btnReject.disabled = false;
+    if (btnCancel) btnCancel.disabled = false;
 
     // 1. Estado y Banner de Recepción
     const statusBanner = document.getElementById('drawer-status-banner');
