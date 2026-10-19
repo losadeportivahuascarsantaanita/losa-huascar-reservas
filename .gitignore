@@ -1,0 +1,43 @@
+# ==============================================================================
+# .gitignore — Sistema de Reservas Losa Deportiva Huáscar – Santa Anita
+# Publicación en GitHub Pages (Frontend público estático)
+# ==============================================================================
+
+# 1. Archivos y código del Backend (Google Apps Script)
+# El backend se ejecuta exclusivamente en la nube privada de Google Apps Script.
+# Se excluyen de la publicación pública en GitHub Pages por seguridad.
+backend/
+
+# 2. Servidores locales y herramientas de diagnóstico internas
+server.js
+test-connection.html
+
+# 3. Archivos del sistema operativo y metadatos locales
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 4. Archivos de configuración de editores e IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.agents/
+
+# 5. Capturas de pantalla internas y mockups de etapas previas
+# (Se conservan solo las plantillas y el logo oficial)
+assets/screenshot-*.png
+assets/mockup-*.png
+
+# 6. Registros, variables de entorno y dependencias
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules/
+.env
+.env.*

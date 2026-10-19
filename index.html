@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Losa Deportiva Huáscar – Santa Anita | Reserva de Horarios</title>
+  
+  <!-- Tipografía moderna y de alta legibilidad -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Estilos del Sistema de Diseño con cache-buster -->
+  <link rel="stylesheet" href="styles.css?v=20261018_v13">
+</head>
+<body>
+
+  <!-- ==========================================
+       Encabezado Oficial Adaptativo con Banner y Ondas
+       (Reproducción fiel según las 3 plantillas oficiales)
+       ========================================== -->
+  <header class="app-header-banner" role="banner">
+    <div class="header-banner-inner">
+      <!-- Acceso al Administrador: ubicado en la esquina superior derecha sin tapar logo ni textos -->
+      <a href="admin.html" class="btn-admin-top" id="btn-open-admin" title="Acceso al Panel del Administrador" style="text-decoration: none;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span class="admin-label-full">Acceso Admin</span>
+        <span class="admin-label-short">Admin</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       Zona Blanca: Contenido Funcional de Reservas
+       (Inicia inmediatamente después de la onda verde)
+       ========================================== -->
+  <main class="booking-section" id="calendario-reservas">
+    <div class="container">
+      
+      <!-- Encabezado de la Sección de Reserva -->
+      <div class="section-intro-header">
+        <h1 class="section-headline">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color: var(--color-primary)">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Elige fecha y horario disponible
+        </h1>
+        <p class="section-subtext">
+          Atención de <strong>7:00 a. m. a 10:00 p. m.</strong> Turnos cada 30 min. Reserva con mínimo <strong>2 horas de anticipación</strong> y hasta <strong>30 días posteriores</strong>.
+        </p>
+      </div>
+
+      <!-- Selector de Duración (Chips) -->
+      <div class="duration-selector-bar" id="duration-chips-container">
+        <!-- Renderizado dinámicamente por calendar.js -->
+      </div>
+
+      <!-- Disposición en 2 Columnas: Calendario Mensual (Izquierda) + Horarios (Derecha) -->
+      <div class="booking-layout-grid">
+        
+        <!-- Columna Izquierda: Selector de Fechas Mensual -->
+        <div id="month-picker-container">
+          <!-- Renderizado dinámicamente por calendar.js -->
+        </div>
+
+        <!-- Columna Derecha: Horarios Disponibles del Día y Resumen del Intervalo -->
+        <div id="day-slots-container">
+          <!-- Renderizado dinámicamente por calendar.js -->
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       ETAPA 2 - PASO 2: Formulario del Solicitante
+       ========================================== -->
+  <section class="booking-section portal-step-section" id="step-2-form-section" style="display: none;">
+    <div class="container">
+      <div class="portal-grid-layout">
+        
+        <!-- Columna Principal: Formulario -->
+        <div class="portal-card form-main-card">
+          <div class="card-header-row">
+            <div class="card-icon-pill">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <h2 class="card-section-title">Datos del solicitante</h2>
+          </div>
+
+          <form id="applicant-form" novalidate onsubmit="return false;">
+            <!-- Nombres y Apellidos -->
+            <div class="form-row-2col">
+              <div class="form-group" id="group-nombres">
+                <label for="input-nombres" class="form-label">Nombres <span class="req">*</span></label>
+                <input type="text" id="input-nombres" class="form-control" placeholder="Ingresa tus nombres" autocomplete="given-name">
+                <span class="field-error-msg" id="error-nombres"></span>
+              </div>
+              <div class="form-group" id="group-apellidos">
+                <label for="input-apellidos" class="form-label">Apellidos <span class="req">*</span></label>
+                <input type="text" id="input-apellidos" class="form-control" placeholder="Ingresa tus apellidos" autocomplete="family-name">
+                <span class="field-error-msg" id="error-apellidos"></span>
+              </div>
+            </div>
+
+            <!-- DNI y Celular -->
+            <div class="form-row-2col">
+              <div class="form-group" id="group-dni">
+                <label for="input-dni" class="form-label">DNI <span class="req">*</span></label>
+                <input type="text" id="input-dni" class="form-control" placeholder="Ingresa tu DNI" maxlength="8" inputmode="numeric">
+                <span class="field-hint">Exactamente 8 dígitos numéricos</span>
+                <span class="field-error-msg" id="error-dni"></span>
+              </div>
+              <div class="form-group" id="group-celular">
+                <label for="input-celular" class="form-label">Celular <span class="req">*</span></label>
+                <input type="tel" id="input-celular" class="form-control" placeholder="Ingresa tu celular" maxlength="9" inputmode="tel">
+                <span class="field-hint">9 dígitos, debe iniciar con 9</span>
+                <span class="field-error-msg" id="error-celular"></span>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+
+            <!-- Domicilio: Pregunta Vecino -->
+            <div class="form-group" id="group-es-vecino">
+              <label class="form-label">¿Es vecino(a) de Huáscar, Santa Anita? <span class="req">*</span></label>
+              <div class="radio-options-group">
+                <label class="radio-card-option">
+                  <input type="radio" name="es-vecino" value="si">
+                  <span class="radio-custom"></span>
+                  <span class="radio-text"><strong>Sí</strong>, resido en Huáscar</span>
+                </label>
+                <label class="radio-card-option">
+                  <input type="radio" name="es-vecino" value="no">
+                  <span class="radio-custom"></span>
+                  <span class="radio-text"><strong>No</strong>, resido en otra zona</span>
+                </label>
+              </div>
+              <span class="field-error-msg" id="error-es-vecino"></span>
+            </div>
+
+            <!-- Campos Domicilio para Vecinos (Sí) -->
+            <div id="wrap-domicilio-vecino" class="domicilio-conditional-grid" style="display: none;">
+              <div class="form-row-2col">
+                <div class="form-group" id="group-manzana">
+                  <label for="input-manzana" class="form-label">Manzana <span class="req">*</span></label>
+                  <input type="text" id="input-manzana" class="form-control" placeholder="Ej. A, B, C...">
+                  <span class="field-error-msg" id="error-manzana"></span>
+                </div>
+                <div class="form-group" id="group-lote">
+                  <label for="input-lote" class="form-label">Lote <span class="req">*</span></label>
+                  <input type="text" id="input-lote" class="form-control" placeholder="Ej. 12, 14...">
+                  <span class="field-error-msg" id="error-lote"></span>
+                </div>
+              </div>
+              <div class="form-group" id="group-referencia">
+                <label for="input-referencia" class="form-label">Referencia <span class="opt">(opcional)</span></label>
+                <input type="text" id="input-referencia" class="form-control" placeholder="Ej. Frente al parque, altura cuadra 3...">
+                <span class="field-error-msg" id="error-referencia"></span>
+              </div>
+            </div>
+
+            <!-- Campos Domicilio para No Vecinos (No) -->
+            <div id="wrap-domicilio-no-vecino" class="domicilio-conditional-grid" style="display: none;">
+              <div class="form-group" id="group-direccion">
+                <label for="input-direccion" class="form-label">Dirección completa <span class="req">*</span></label>
+                <input type="text" id="input-direccion" class="form-control" placeholder="Av., Jr., Calle, número...">
+                <span class="field-error-msg" id="error-direccion"></span>
+              </div>
+              <div class="form-group" id="group-distrito">
+                <label for="input-distrito" class="form-label">Distrito <span class="req">*</span></label>
+                <select id="input-distrito" class="form-control">
+                  <!-- Se puebla dinámicamente con los 43 distritos -->
+                </select>
+                <span class="field-error-msg" id="error-distrito"></span>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+
+            <!-- Motivo de la Reserva -->
+            <div class="form-group" id="group-motivo">
+              <label for="input-motivo" class="form-label">Motivo de la reserva <span class="req">*</span></label>
+              <select id="input-motivo" class="form-control">
+                <!-- Se puebla dinámicamente con Fulbito, Vóley, Básquet, Academia, Evento deportivo, Otro -->
+              </select>
+              <span class="field-error-msg" id="error-motivo"></span>
+            </div>
+
+            <!-- Campo condicional para Otro -->
+            <div class="form-group" id="wrap-motivo-otro" style="display: none;">
+              <label for="input-motivo-detalle" class="form-label">Especifica el motivo de tu reserva <span class="req">*</span></label>
+              <input type="text" id="input-motivo-detalle" class="form-control" placeholder="Describe brevemente la actividad deportiva o recreativa">
+              <span class="field-error-msg" id="error-motivo-detalle"></span>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="form-actions-bar">
+              <button type="button" class="btn-action-back" id="btn-form-back">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span>Volver</span>
+              </button>
+              <button type="button" class="btn-action-continue" id="btn-form-continue">
+                <span>Continuar</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Columna Lateral: Resumen de la Reserva (Idéntico al Mockup) -->
+        <aside class="portal-card summary-side-card">
+          <div class="card-header-row">
+            <div class="card-icon-pill">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h3 class="card-section-title">Resumen de la reserva</h3>
+          </div>
+
+          <div class="summary-items-list">
+            <div class="summary-item-entry">
+              <div class="summary-entry-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div class="summary-entry-content">
+                <span class="summary-label">Fecha</span>
+                <strong class="summary-value summary-slot-date">--</strong>
+              </div>
+            </div>
+
+            <div class="summary-item-entry">
+              <div class="summary-entry-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="summary-entry-content">
+                <span class="summary-label">Horario</span>
+                <strong class="summary-value summary-slot-time">--</strong>
+              </div>
+            </div>
+
+            <div class="summary-item-entry">
+              <div class="summary-entry-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
+              </div>
+              <div class="summary-entry-content">
+                <span class="summary-label">Duración</span>
+                <strong class="summary-value summary-slot-duration">--</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-losa-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Losa Deportiva Huáscar – Santa Anita</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ETAPA 2 - PASO 3: Revisión y Confirmación
+       ========================================== -->
+  <section class="booking-section portal-step-section" id="step-3-review-section" style="display: none;">
+    <div class="container" style="max-width: 860px;">
+      <div class="portal-card review-main-card">
+        <div class="review-heading-block">
+          <h2 class="review-title">Confirma tu reserva</h2>
+          <p class="review-subtitle">Revisa la información antes de enviar tu solicitud.</p>
+        </div>
+
+        <div class="review-sections-grid">
+          <!-- Bloque 1: Datos de la Reserva -->
+          <div class="review-column-block">
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Fecha</span>
+                <strong class="review-item-val" id="rev-fecha">--</strong>
+              </div>
+            </div>
+
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Horario</span>
+                <strong class="review-item-val" id="rev-horario">--</strong>
+              </div>
+            </div>
+
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Duración</span>
+                <strong class="review-item-val" id="rev-duracion">--</strong>
+              </div>
+            </div>
+
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Motivo de reserva</span>
+                <strong class="review-item-val" id="rev-motivo">--</strong>
+              </div>
+            </div>
+
+            <div class="review-item-row" id="rev-wrap-motivo-detalle" style="display: none;">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Detalle del motivo</span>
+                <strong class="review-item-val" id="rev-motivo-detalle">--</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloque 2: Datos del Solicitante -->
+          <div class="review-column-block">
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Nombre completo</span>
+                <strong class="review-item-val" id="rev-nombre">--</strong>
+              </div>
+            </div>
+
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="13" y2="12"></line></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">DNI</span>
+                <strong class="review-item-val" id="rev-dni">--</strong>
+              </div>
+            </div>
+
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Celular</span>
+                <strong class="review-item-val" id="rev-celular">--</strong>
+              </div>
+            </div>
+
+            <div class="review-item-row">
+              <div class="review-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              </div>
+              <div class="review-item-body">
+                <span class="review-item-label">Condición de domicilio</span>
+                <strong class="review-item-val" id="rev-condicion">--</strong>
+                <span class="review-item-subval" id="rev-domicilio-detalle">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aviso informativo de aprobación requerida -->
+        <div class="review-notice-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <span>Al hacer clic en confirmar, tu solicitud ingresará en estado <strong>Pendiente de aprobación</strong> por la administración comunitaria.</span>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="form-actions-bar">
+          <button type="button" class="btn-action-back" id="btn-review-back">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span>Volver y corregir</span>
+          </button>
+          <button type="button" class="btn-action-continue" id="btn-confirm-booking">
+            <span>Confirmar solicitud</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ETAPA 2 - PASO 4: Constancia Digital
+       ========================================== -->
+  <section class="booking-section portal-step-section" id="step-4-ticket-section" style="display: none;">
+    <div class="container" style="max-width: 860px;">
+      <div class="portal-card ticket-main-card" id="printable-ticket-card">
+        
+        <!-- Encabezado de éxito con Check verde -->
+        <div class="ticket-header-block">
+          <div class="ticket-success-circle">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="ticket-header-text">
+            <h2 class="ticket-headline">¡Solicitud enviada!</h2>
+            <p class="ticket-subheadline">Tu reserva ha sido registrada correctamente.</p>
+            <p class="ticket-microheadline">Revisa tu constancia con el código de solicitud. Recibirás la confirmación una vez que sea aprobada.</p>
+          </div>
+        </div>
+
+        <!-- Tarjeta interior de la constancia digital -->
+        <div class="ticket-data-box">
+          <div class="ticket-data-grid">
+            <!-- Columna Izquierda: Código de Solicitud y Estado -->
+            <div class="ticket-code-column">
+              <span class="ticket-code-label">Código de solicitud</span>
+              <div class="ticket-code-number" id="ticket-code">RH-20261018-001</div>
+              
+              <div class="ticket-status-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                <span>Pendiente de aprobación</span>
+              </div>
+
+              <div class="ticket-extra-details">
+                <div class="ticket-mini-detail">
+                  <span class="mini-label">Solicitante:</span>
+                  <strong class="mini-val" id="ticket-solicitante">--</strong>
+                </div>
+                <div class="ticket-mini-detail">
+                  <span class="mini-label">DNI:</span>
+                  <span class="mini-val" id="ticket-dni">--</span>
+                </div>
+                <div class="ticket-mini-detail">
+                  <span class="mini-label">Celular:</span>
+                  <span class="mini-val" id="ticket-celular">--</span>
+                </div>
+                <div class="ticket-mini-detail">
+                  <span class="mini-label">Domicilio:</span>
+                  <span class="mini-val" id="ticket-domicilio">--</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Columna Derecha: Detalles del Turno -->
+            <div class="ticket-slot-column">
+              <div class="ticket-slot-entry">
+                <div class="ticket-slot-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </div>
+                <div>
+                  <span class="ticket-item-label">Fecha</span>
+                  <strong class="ticket-item-val" id="ticket-fecha">--</strong>
+                </div>
+              </div>
+
+              <div class="ticket-slot-entry">
+                <div class="ticket-slot-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                </div>
+                <div>
+                  <span class="ticket-item-label">Horario</span>
+                  <strong class="ticket-item-val" id="ticket-horario">--</strong>
+                </div>
+              </div>
+
+              <div class="ticket-slot-entry">
+                <div class="ticket-slot-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
+                </div>
+                <div>
+                  <span class="ticket-item-label">Duración</span>
+                  <strong class="ticket-item-val" id="ticket-duracion">--</strong>
+                </div>
+              </div>
+
+              <div class="ticket-slot-entry">
+                <div class="ticket-slot-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+                </div>
+                <div>
+                  <span class="ticket-item-label">Motivo</span>
+                  <strong class="ticket-item-val" id="ticket-motivo">--</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aviso de simulación demostrativa local -->
+        <div class="ticket-demo-alert">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span><strong>Modo demostrativo local:</strong> Solicitud registrada en memoria local. En la Etapa 3 se integrará con Google Sheets y Google Apps Script.</span>
+        </div>
+
+        <!-- Botones de Acción (Ocultos en impresión) -->
+        <div class="ticket-actions-bar print-hide">
+          <button type="button" class="btn-action-back" id="btn-ticket-home">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Volver al inicio</span>
+          </button>
+          <button type="button" class="btn-action-outline-green" id="btn-ticket-print">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Descargar constancia (PDF)</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       Barra Inferior Flotante Móvil
+       ========================================== -->
+  <div class="selected-slot-bar" id="selected-slot-bar">
+    <div class="slot-bar-inner">
+      <div class="slot-bar-details" id="selected-slot-details">--</div>
+      <button type="button" class="btn-cta-continue" id="btn-proceed-booking" style="padding: 10px 18px; font-size: 0.88rem;">
+        <span>Continuar</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Ventana Modal de Confirmación
+       ========================================== -->
+  <div class="modal-overlay" id="confirmation-modal">
+    <div class="modal-confirm-card">
+      <button type="button" class="modal-close-icon" id="btn-modal-close-confirm" aria-label="Cerrar">✕</button>
+
+      <!-- Ícono centralizado amigable -->
+      <div class="modal-circle-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+
+      <h3 class="modal-confirm-title">
+        ¿Deseas continuar con tu <span>reserva</span>?
+      </h3>
+
+      <!-- Tabla de detalles clave-valor -->
+      <div class="modal-details-table">
+        <div class="detail-row">
+          <span class="detail-label">Losa deportiva:</span>
+          <span class="detail-value" id="confirm-losa-name">Losa Deportiva Huáscar – Santa Anita</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Fecha:</span>
+          <span class="detail-value" id="confirm-date">--</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Hora de inicio:</span>
+          <span class="detail-value" id="confirm-start-time">--</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Hora de término:</span>
+          <span class="detail-value" id="confirm-end-time">--</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Duración:</span>
+          <span class="detail-value" id="confirm-duration">--</span>
+        </div>
+      </div>
+
+      <!-- Aviso obligatorio de solicitud pendiente -->
+      <div class="modal-notice-box">
+        <strong>⚠️ Importante:</strong> Esta solicitud quedará registrada en estado <strong>Pendiente</strong> y requerirá la posterior aprobación del administrador. No representa todavía una reserva confirmada.
+      </div>
+
+      <!-- Acciones: Volver vs Continuar -->
+      <div class="modal-actions-pair">
+        <button type="button" class="btn-modal-back" id="btn-modal-back">
+          Volver
+        </button>
+        <button type="button" class="btn-modal-proceed" id="btn-modal-proceed-form">
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Modal Informativo de Acceso del Administrador
+       ========================================== -->
+  <div class="modal-overlay" id="admin-modal-overlay">
+    <div class="modal-confirm-card" style="text-align: center;">
+      <button type="button" class="modal-close-icon" id="btn-close-admin" aria-label="Cerrar">✕</button>
+      
+      <div class="modal-circle-icon" style="background: rgba(37, 99, 235, 0.1); color: var(--color-accent);">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+
+      <h3 class="modal-confirm-title" style="margin-bottom: 8px;">Panel del Administrador</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 18px;">
+        Módulo exclusivo para la gestión de solicitudes, aprobación, rechazo, cancelaciones y bloqueo de horarios.
+      </p>
+
+      <div class="modal-notice-box" style="border-left-color: var(--color-accent); background: #eff6ff; color: #1e40af;">
+        <strong>🔒 Seguridad:</strong> La autenticación será validada en el servidor de Google Apps Script en la Etapa 3.
+      </div>
+
+      <button type="button" class="btn-modal-proceed" id="btn-admin-modal-close" style="width: 100%;">
+        Entendido, volver
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Pie de Página (Footer)
+       ========================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-info">
+        <p class="footer-brand">Losa Deportiva Huáscar – Santa Anita</p>
+        <p>Espacio deportivo y recreativo comunitario.</p>
+        <p style="font-size: 0.78rem; opacity: 0.75; margin-top: 4px;">
+          Santa Anita, Lima Metropolitana · Atención de lunes a domingo de 7:00 a. m. a 10:00 p. m.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts Modulares con cache-buster -->
+  <script src="js/config.js?v=20261018_v13"></script>
+  <script src="js/api-service.js?v=20261019_v1"></script>
+  <script src="js/calendar.js?v=20261018_v13"></script>
+  <script src="js/user-portal.js?v=20261018_v13"></script>
+  <script src="js/app.js?v=20261018_v13"></script>
+</body>
+</html>

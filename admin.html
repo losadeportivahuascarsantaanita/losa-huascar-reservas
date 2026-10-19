@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del Administrador | Losa Deportiva Huáscar – Santa Anita</title>
+  
+  <!-- Tipografía Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Estilos del Panel con cache-buster -->
+  <link rel="stylesheet" href="admin.css?v=20261019_v1">
+</head>
+<body>
+
+  <!-- ==========================================
+       PANTALLA DE ACCESO ADMINISTRATIVO (LOGIN)
+       ========================================== -->
+  <div class="admin-login-overlay" id="admin-login-screen">
+    <div class="admin-login-card">
+      <div class="login-brand-header">
+        <img src="assets/logo.jpeg" alt="Logo Losa Deportiva Huáscar" class="login-logo-img">
+        <h1 class="login-title">Losa Deportiva Huáscar</h1>
+        <p class="login-subtitle">Santa Anita · Panel de Administrador</p>
+        <span class="login-badge">Acceso Restringido</span>
+      </div>
+
+      <div class="login-alert-box" id="login-error-msg" style="display: none;"></div>
+
+      <form id="form-admin-login" class="login-form">
+        <div class="login-form-group">
+          <label for="input-admin-user" class="login-label">Usuario</label>
+          <div class="login-input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <input type="text" id="input-admin-user" class="login-control with-icon" value="admin" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <label for="input-admin-pass" class="login-label">Contraseña</label>
+            <button type="button" class="btn-toggle-pass-visibility" id="btn-toggle-pass" aria-label="Mostrar u ocultar contraseña">Mostrar</button>
+          </div>
+          <div class="login-input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="input-admin-pass" class="login-control with-icon" placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+          </div>
+        </div>
+
+        <div class="login-hint-box">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>Acceso restringido para el personal administrativo autorizado.</span>
+        </div>
+
+        <button type="submit" class="btn-submit-login">
+          <span>Ingresar al Panel</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <a href="index.html" class="link-return-portal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span>Volver al Portal de Reservas</span>
+        </a>
+      </form>
+    </div>
+  </div>
+
+  <!-- Barra superior para tablet y celular -->
+  <div class="mobile-top-bar" id="mobile-top-bar">
+    <button type="button" class="btn-toggle-sidebar" id="btn-mobile-sidebar-toggle" aria-label="Abrir menú">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+    <div class="mobile-brand-wrap">
+      <img src="assets/logo.jpeg" alt="Logo Losa Huáscar" class="mobile-brand-logo">
+      <span class="mobile-brand-title">Losa Huáscar · Admin</span>
+    </div>
+    <button type="button" class="btn-mobile-logout" id="btn-mobile-logout" title="Cerrar sesión">Salir</button>
+  </div>
+
+  <div class="drawer-backdrop" id="mobile-sidebar-backdrop"></div>
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+
+  <div class="admin-layout" id="admin-layout-container" style="display: none;">
+
+    <!-- ==========================================
+         1. MENÚ LATERAL (SIDEBAR)
+         ========================================== -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div>
+        <div class="sidebar-brand-block vertical-brand">
+          <img src="assets/logo.jpeg" alt="Logo Losa Deportiva Huáscar" class="sidebar-brand-logo">
+          <div class="sidebar-brand-text-col">
+            <div class="sidebar-brand-line1">Losa Deportiva</div>
+            <div class="sidebar-brand-line2">Huáscar</div>
+            <div class="sidebar-brand-line3">Santa Anita</div>
+            <div class="sidebar-badge">
+              <span class="badge-dot">●</span> PANEL DE ADMINISTRADOR
+            </div>
+          </div>
+        </div>
+
+        <nav>
+          <ul class="sidebar-nav-list">
+            <li>
+              <button type="button" class="nav-item-btn active" data-view="requests">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>Solicitudes</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="nav-item-btn" data-view="calendar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span>Calendario</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="nav-item-btn" data-view="block">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                <span>Bloquear horarios</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="nav-item-btn" data-view="history">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>Historial</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="btn-public-portal" title="Regresar al Portal Público de Reservas">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span>Portal de Reservas</span>
+        </a>
+        <button type="button" class="btn-logout-admin" id="btn-logout-sidebar" title="Cerrar sesión de administrador">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==========================================
+         2. ÁREA PRINCIPAL DE CONTENIDO
+         ========================================== -->
+    <div class="admin-main-wrapper">
+      
+      <main class="admin-content-area">
+
+        <!-- ==========================================
+             VISTA 1: SOLICITUDES DE RESERVA (DEFAULT)
+             ========================================== -->
+        <section class="admin-view-panel active-view" id="view-requests">
+          
+          <!-- Encabezado de la Sección (Sin botón de nueva reserva manual) -->
+          <div class="section-header-block">
+            <div class="section-title-wrap">
+              <h1 class="section-title-large">Solicitudes de reserva</h1>
+              <p class="section-subtitle-muted">Gestiona las solicitudes y mantén actualizada la disponibilidad de la losa.</p>
+            </div>
+            <button type="button" class="btn-toggle-drawer-desktop" id="btn-toggle-drawer-desktop" onclick="AdminController.openDrawer()" title="Abrir panel de detalles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              <span>Ver detalle</span>
+            </button>
+          </div>
+
+          <!-- Tarjetas de Resumen (KPIs Dinámicos) -->
+          <div class="kpi-cards-grid">
+            <div class="kpi-card kpi-total" id="kpi-card-total" role="button" tabindex="0" title="Ver todas las solicitudes">
+              <div class="kpi-icon-pill">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-number" id="kpi-total-num">12</span>
+                <span class="kpi-label">Total de solicitudes</span>
+              </div>
+            </div>
+
+            <div class="kpi-card kpi-pending" id="kpi-card-pending" role="button" tabindex="0" title="Filtrar por solicitudes pendientes">
+              <div class="kpi-icon-pill">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-number" id="kpi-pending-num">5</span>
+                <span class="kpi-label">Pendientes</span>
+              </div>
+            </div>
+
+            <div class="kpi-card kpi-approved" id="kpi-card-approved" role="button" tabindex="0" title="Filtrar por solicitudes aprobadas">
+              <div class="kpi-icon-pill">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-number" id="kpi-approved-num">4</span>
+                <span class="kpi-label">Aprobadas</span>
+              </div>
+            </div>
+
+            <div class="kpi-card kpi-rejected" id="kpi-card-rejected" role="button" tabindex="0" title="Filtrar por solicitudes rechazadas">
+              <div class="kpi-icon-pill">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-number" id="kpi-rejected-num">2</span>
+                <span class="kpi-label">Rechazadas</span>
+              </div>
+            </div>
+
+            <div class="kpi-card kpi-cancelled" id="kpi-card-cancelled" role="button" tabindex="0" title="Filtrar por solicitudes canceladas">
+              <div class="kpi-icon-pill">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-number" id="kpi-cancelled-num">1</span>
+                <span class="kpi-label">Canceladas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Filtros y Búsqueda en una sola fila -->
+          <div class="filters-toolbar-card">
+            <div class="filter-item filter-item-date">
+              <label for="filter-date" class="filter-label">Fecha</label>
+              <div class="filter-input-wrap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <input type="date" id="filter-date" class="filter-control with-icon">
+              </div>
+            </div>
+
+            <div class="filter-item filter-item-status">
+              <label for="filter-status" class="filter-label">Estado</label>
+              <select id="filter-status" class="filter-control">
+                <option value="all">Todos los estados</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="aprobada">Aprobada</option>
+                <option value="rechazada">Rechazada</option>
+                <option value="cancelada">Cancelada</option>
+              </select>
+            </div>
+
+            <div class="filter-item filter-item-search">
+              <label for="filter-search" class="filter-label">Buscar</label>
+              <div class="filter-input-wrap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="filter-search" class="filter-control with-icon" placeholder="Nombre, DNI o código...">
+              </div>
+            </div>
+
+            <div class="filter-item filter-item-clear">
+              <button type="button" class="btn-clear-filters" id="btn-clear-filters">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                <span>Limpiar filtros</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabla de Solicitudes -->
+          <div class="table-container-card">
+            <div class="table-responsive-box">
+              <table class="requests-table">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Fecha</th>
+                    <th>Horario</th>
+                    <th>Solicitante</th>
+                    <th>Actividad</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="requests-table-body">
+                  <!-- Renderizado dinámicamente por admin.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginación Inferior -->
+            <div class="table-pagination-footer">
+              <div id="pagination-info">Mostrando 1 a 10 de 12 solicitudes</div>
+              <div class="pagination-controls-block">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem;">
+                  <span>Filas por página:</span>
+                  <select id="select-rows-per-page" class="filter-control" style="padding: 4px 8px; font-size: 0.82rem;">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+                <div class="pagination-buttons" id="pagination-buttons">
+                  <!-- Botones de paginación dinámicos -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==========================================
+             VISTA 2: CALENDARIO DE OCUPACIÓN
+             ========================================== -->
+        <section class="admin-view-panel" id="view-calendar">
+          <div class="section-header-block" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <h1 class="section-title-large">Calendario administrativo</h1>
+              <p class="section-subtitle-muted">Monitorea la ocupación diaria y disponibilidad horaria de la losa deportiva.</p>
+            </div>
+            <div class="filter-item">
+              <label for="cal-admin-date" class="filter-label">Fecha a inspeccionar</label>
+              <input type="date" id="cal-admin-date" class="filter-control" onchange="AdminController.renderAdminCalendar()">
+            </div>
+          </div>
+
+          <div class="table-container-card" style="padding: 0;">
+            <div style="background: #f8fafc; padding: 12px 18px; border-bottom: 1.5px solid var(--admin-border); display: flex; gap: 18px; font-size: 0.8rem; font-weight: 700;">
+              <span style="color: #047857;">● Reservado (Aprobado)</span>
+              <span style="color: #b45309;">● Solicitud Pendiente</span>
+              <span style="color: #b91c1c;">● Bloqueado</span>
+              <span style="color: #94a3b8;">● Disponible</span>
+            </div>
+            <div id="admin-calendar-timeline" style="max-height: 540px; overflow-y: auto;">
+              <!-- Renderizado dinámicamente -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             VISTA 3: BLOQUEAR HORARIOS
+             ========================================== -->
+        <section class="admin-view-panel" id="view-block">
+          <div class="section-header-block">
+            <h1 class="section-title-large">Bloqueo de horarios</h1>
+            <p class="section-subtitle-muted">Inhabilita turnos por mantenimiento, eventos vecinales o causas administrativas.</p>
+          </div>
+
+          <div class="block-form-card">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--admin-navy); margin-bottom: 16px;">Programar nuevo bloqueo de horario</h3>
+            
+            <div id="block-alert-box" class="admin-alert-box admin-alert-warning" style="display: none;"></div>
+
+            <form id="form-create-block">
+              <div class="form-group-admin">
+                <label for="block-date">Fecha del bloqueo *</label>
+                <input type="date" id="block-date" required>
+              </div>
+
+              <div class="form-grid-2col">
+                <div class="form-group-admin">
+                  <label for="block-start">Hora de inicio *</label>
+                  <select id="block-start" required>
+                    <option value="">-- Seleccionar --</option>
+                    <option value="07:00">7:00 a. m.</option>
+                    <option value="08:00">8:00 a. m.</option>
+                    <option value="09:00">9:00 a. m.</option>
+                    <option value="10:00">10:00 a. m.</option>
+                    <option value="11:00">11:00 a. m.</option>
+                    <option value="12:00">12:00 p. m.</option>
+                    <option value="13:00">1:00 p. m.</option>
+                    <option value="14:00">2:00 p. m.</option>
+                    <option value="15:00">3:00 p. m.</option>
+                    <option value="16:00">4:00 p. m.</option>
+                    <option value="17:00">5:00 p. m.</option>
+                    <option value="18:00">6:00 p. m.</option>
+                    <option value="19:00">7:00 p. m.</option>
+                    <option value="20:00">8:00 p. m.</option>
+                    <option value="21:00">9:00 p. m.</option>
+                  </select>
+                </div>
+
+                <div class="form-group-admin">
+                  <label for="block-end">Hora de término *</label>
+                  <select id="block-end" required>
+                    <option value="">-- Seleccionar --</option>
+                    <option value="08:00">8:00 a. m.</option>
+                    <option value="09:00">9:00 a. m.</option>
+                    <option value="10:00">10:00 a. m.</option>
+                    <option value="11:00">11:00 a. m.</option>
+                    <option value="12:00">12:00 p. m.</option>
+                    <option value="13:00">1:00 p. m.</option>
+                    <option value="14:00">2:00 p. m.</option>
+                    <option value="15:00">3:00 p. m.</option>
+                    <option value="16:00">4:00 p. m.</option>
+                    <option value="17:00">5:00 p. m.</option>
+                    <option value="18:00">6:00 p. m.</option>
+                    <option value="19:00">7:00 p. m.</option>
+                    <option value="20:00">8:00 p. m.</option>
+                    <option value="21:00">9:00 p. m.</option>
+                    <option value="22:00">10:00 p. m.</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group-admin">
+                <label for="block-reason">Motivo o justificación *</label>
+                <input type="text" id="block-reason" placeholder="Ej. Mantenimiento de luminarias, asamblea vecinal..." required>
+              </div>
+
+              <button type="submit" class="btn-primary-admin">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                <span>Inhabilitar intervalo horario</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Lista de Bloqueos Activos -->
+          <div class="table-container-card">
+            <div style="padding: 16px 20px; border-bottom: 1.5px solid var(--admin-border);">
+              <h4 style="font-size: 1rem; font-weight: 800; color: var(--admin-navy);">Horarios bloqueados activos</h4>
+            </div>
+            <div class="table-responsive-box">
+              <table class="requests-table">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Fecha</th>
+                    <th>Horario</th>
+                    <th>Motivo</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="blocked-slots-table-body">
+                  <!-- Renderizado dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             VISTA 4: HISTORIAL DE ACCIONES (AUDITORÍA)
+             ========================================== -->
+        <section class="admin-view-panel" id="view-history">
+          <div class="section-header-block">
+            <h1 class="section-title-large">Historial de acciones</h1>
+            <p class="section-subtitle-muted">Registro de auditoría con la trazabilidad de aprobaciones, rechazos, cancelaciones y bloqueos.</p>
+          </div>
+
+          <div class="table-container-card">
+            <div class="table-responsive-box">
+              <table class="requests-table">
+                <thead>
+                  <tr>
+                    <th>Fecha y hora</th>
+                    <th>Acción</th>
+                    <th>Código objetivo</th>
+                    <th>Transición de estado</th>
+                    <th>Administrador</th>
+                    <th>Motivo / Notas</th>
+                  </tr>
+                </thead>
+                <tbody id="history-table-body">
+                  <!-- Renderizado dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- ==========================================
+           3. PANEL LATERAL DERECHO (DRAWER DE DETALLES)
+           ========================================== -->
+      <aside class="admin-drawer" id="admin-drawer">
+        <div class="drawer-header-row">
+          <h2 class="drawer-title">Detalle de la solicitud</h2>
+          <button type="button" class="btn-close-drawer" id="btn-close-drawer" aria-label="Cerrar panel">✕</button>
+        </div>
+
+        <!-- Banner de Estado con Fecha y Hora de Recepción -->
+        <div class="drawer-status-banner status-pendiente" id="drawer-status-banner">
+          ⏳ <strong>Pendiente de aprobación</strong><br>
+          <span style="font-size: 0.76rem; opacity: 0.85;">Recibida el 20/10/2026 – 11:45 a. m.</span>
+        </div>
+
+        <!-- Código de Solicitud -->
+        <div class="drawer-code-card">
+          <div class="drawer-code-label">Código de solicitud</div>
+          <div class="drawer-code-value" id="drawer-code-val">RH-20261020-001</div>
+        </div>
+
+        <!-- Bloque Solicitante -->
+        <div class="drawer-section-entry">
+          <div class="drawer-entry-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </div>
+          <div class="drawer-entry-body">
+            <span class="drawer-entry-title">Solicitante</span>
+            <strong class="drawer-entry-text" id="drawer-solicitante-name">Juan Pérez García</strong>
+            <span class="drawer-entry-meta" id="drawer-solicitante-dni">DNI: 12345678</span>
+            <span class="drawer-entry-meta" id="drawer-solicitante-phone">Celular: 987654321</span>
+          </div>
+        </div>
+
+        <!-- Bloque Domicilio -->
+        <div class="drawer-section-entry">
+          <div class="drawer-entry-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <div class="drawer-entry-body">
+            <span class="drawer-entry-title">Domicilio</span>
+            <strong class="drawer-entry-text" id="drawer-domicilio-cond">Sí, resido en Huáscar</strong>
+            <span class="drawer-entry-meta" id="drawer-domicilio-detail">Manzana: B · Lote: 14<br>Referencia: Frente al parque central</span>
+          </div>
+        </div>
+
+        <!-- Bloque Reserva -->
+        <div class="drawer-section-entry">
+          <div class="drawer-entry-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <div class="drawer-entry-body">
+            <span class="drawer-entry-title">Reserva</span>
+            <strong class="drawer-entry-text" id="drawer-reserva-date">Fecha: Martes, 20 de octubre de 2026</strong>
+            <span class="drawer-entry-meta" id="drawer-reserva-time">Horario: 2:00 p. m. – 4:00 p. m.</span>
+            <span class="drawer-entry-meta" id="drawer-reserva-dur">Duración: 2 horas (120 min)</span>
+          </div>
+        </div>
+
+        <!-- Bloque Actividad -->
+        <div class="drawer-section-entry">
+          <div class="drawer-entry-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line></svg>
+          </div>
+          <div class="drawer-entry-body">
+            <span class="drawer-entry-title">Actividad</span>
+            <strong class="drawer-entry-text" id="drawer-actividad-val">Fulbito</strong>
+          </div>
+        </div>
+
+        <!-- Contenedor dinámico de acciones del drawer -->
+        <div class="drawer-actions-container" id="drawer-actions-container">
+          <!-- Renderizado dinámicamente por admin.js -->
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       4. MODALES DE CONFIRMACIÓN Y WHATSAPP
+       ========================================== -->
+
+  <!-- Modal Confirmar Aprobación -->
+  <div class="admin-modal-backdrop" id="modal-approve-confirm">
+    <div class="admin-modal-card">
+      <div class="modal-header-icon approve-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h3 class="modal-title-text">¿Deseas aprobar esta solicitud?</h3>
+      <p style="font-size: 0.88rem; color: var(--admin-text-muted); text-align: center;">
+        El horario quedará reservado formalmente para el solicitante.
+      </p>
+
+      <div class="modal-body-details">
+        <div><strong>Código:</strong> <span id="approve-modal-code">--</span></div>
+        <div><strong>Solicitante:</strong> <span id="approve-modal-name">--</span></div>
+        <div><strong>Fecha:</strong> <span id="approve-modal-date">--</span></div>
+        <div><strong>Horario:</strong> <span id="approve-modal-time">--</span></div>
+      </div>
+
+      <div class="modal-actions-pair">
+        <button type="button" class="btn-modal-cancel btn-close-modal">Volver</button>
+        <button type="button" class="btn-modal-confirm-approve" id="btn-confirm-approve">Sí, aprobar solicitud</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Confirmar Rechazo -->
+  <div class="admin-modal-backdrop" id="modal-reject-confirm">
+    <div class="admin-modal-card">
+      <div class="modal-header-icon reject-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
+      <h3 class="modal-title-text">Rechazar solicitud de reserva</h3>
+      <p style="font-size: 0.86rem; color: var(--admin-text-muted); text-align: center;">
+        Esta acción es definitiva. El solicitante será notificado por WhatsApp.
+      </p>
+
+      <div class="modal-body-details">
+        <div><strong>Código:</strong> <span id="reject-modal-code">--</span></div>
+        <div><strong>Fecha:</strong> <span id="reject-modal-date">--</span></div>
+        <div><strong>Horario:</strong> <span id="reject-modal-time">--</span></div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <label for="input-reject-reason" style="display: block; font-size: 0.84rem; font-weight: 700; color: var(--admin-navy); margin-bottom: 6px;">
+          Motivo del rechazo:
+        </label>
+        <input type="text" id="input-reject-reason" class="filter-control" placeholder="Ej. Cruce de horario, mantenimiento programado..." style="width: 100%;">
+      </div>
+
+      <div class="modal-actions-pair">
+        <button type="button" class="btn-modal-cancel btn-close-modal">Cancelar</button>
+        <button type="button" class="btn-modal-confirm-reject" id="btn-confirm-reject">Rechazar solicitud</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Confirmar Cancelación -->
+  <div class="admin-modal-backdrop" id="modal-cancel-confirm">
+    <div class="admin-modal-card">
+      <div class="modal-header-icon cancel-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+      </div>
+      <h3 class="modal-title-text">Cancelar solicitud de reserva</h3>
+      <p style="font-size: 0.86rem; color: var(--admin-text-muted); text-align: center;">
+        La solicitud pasará a estado Cancelada definitivamente y el horario quedará liberado.
+      </p>
+
+      <div class="modal-body-details">
+        <div><strong>Código:</strong> <span id="cancel-modal-code">--</span></div>
+        <div><strong>Fecha:</strong> <span id="cancel-modal-date">--</span></div>
+        <div><strong>Horario:</strong> <span id="cancel-modal-time">--</span></div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <label for="input-cancel-reason" style="display: block; font-size: 0.84rem; font-weight: 700; color: var(--admin-navy); margin-bottom: 6px;">
+          Motivo de la cancelación:
+        </label>
+        <input type="text" id="input-cancel-reason" class="filter-control" placeholder="Ej. A solicitud del vecino, suspensión de actividades..." style="width: 100%;">
+      </div>
+
+      <div class="modal-actions-pair">
+        <button type="button" class="btn-modal-cancel btn-close-modal">Volver</button>
+        <button type="button" class="btn-modal-confirm-cancel" id="btn-confirm-cancel">Sí, cancelar reserva</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Vista Previa de WhatsApp -->
+  <div class="admin-modal-backdrop" id="modal-whatsapp-preview">
+    <div class="admin-modal-card" style="max-width: 520px;">
+      <div class="modal-header-icon wa-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z"/></svg>
+      </div>
+      <h3 class="modal-title-text" style="color: var(--wa-green-dark);">Comunicación por WhatsApp</h3>
+      <p style="font-size: 0.86rem; color: var(--admin-text-muted); text-align: center;">
+        Destinatario: <strong id="wa-preview-name">--</strong> (<span id="wa-preview-phone">--</span>)
+      </p>
+
+      <div class="wa-preview-box" id="wa-preview-content">
+        <!-- Texto predefinido con asteriscos y emojis -->
+      </div>
+
+      <p style="font-size: 0.78rem; color: var(--admin-text-muted); text-align: center; margin-bottom: 14px;">
+        ℹ️ El botón abrirá WhatsApp con el mensaje listo. Como administrador, tú presionarás «Enviar» manualmente.
+      </p>
+
+      <div class="modal-actions-pair">
+        <button type="button" class="btn-modal-cancel btn-close-modal">Cerrar</button>
+        <button type="button" class="btn-drawer-whatsapp" id="btn-send-whatsapp-link" style="margin-top: 0;">
+          <span>Abrir WhatsApp Web / App</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts del Panel de Administración con cache-buster -->
+  <script src="js/api-service.js?v=20261019_v1"></script>
+  <script src="js/admin-data.js?v=20261019_v1"></script>
+  <script src="js/admin.js?v=20261019_v1"></script>
+</body>
+</html>
